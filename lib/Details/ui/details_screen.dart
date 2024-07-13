@@ -188,7 +188,7 @@ class SetupItemSelected extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 16.h),
+        verticalSpace( 16.h),
       ],
     );
   }
