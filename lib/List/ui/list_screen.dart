@@ -50,31 +50,35 @@ class _ListScreenState extends State<ListScreen> {
         backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: constraints.maxWidth),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    verticalSpace(16.h),
-                    CustomSearchBar(
-                      controller: _controller,
-                      onSearch: _performSearch,
-                      orientation: orientation,
-                      listCubit: context.read<ListCubit>(),
-                    ),
-                    verticalSpace(16.h),
-                    const ListBlocBuilder(),
-                  ],
-                ),
+      body: listScreenBody(orientation),
+    );
+  }
+
+  SafeArea listScreenBody(Orientation orientation) {
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  verticalSpace(16.h),
+                  CustomSearchBar(
+                    controller: _controller,
+                    onSearch: _performSearch,
+                    orientation: orientation,
+                    listCubit: context.read<ListCubit>(),
+                  ),
+                  verticalSpace(16.h),
+                  const ListBlocBuilder(),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

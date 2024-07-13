@@ -75,121 +75,137 @@ class SetupItemSelected extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return detailsScreenBody();
+  }
+
+  Column detailsScreenBody() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(12.0),
-                bottomRight: Radius.circular(12.0)),
-            child: Image.network(
-              result.poster_path != null
-                  ? "https://image.tmdb.org/t/p/w500${result.backdrop_path}"
-                  : "https://via.placeholder.com/150",
-              height: 300,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Center(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(12.0),
+              bottomRight: Radius.circular(12.0)),
+          child: Image.network(
+            result.poster_path != null
+                ? "https://image.tmdb.org/t/p/w500${result.backdrop_path}"
+                : "https://via.placeholder.com/150",
+            height: 300,
+            width: double.infinity,
+            fit: BoxFit.cover,
           ),
         ),
-        verticalSpace( 16.0.h),
-
-        // Movie Title and Rating
-        Center(
-          child: Column(
-            children: [
-              Text(
-                result.title ?? '',
-                style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Montserrat",
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.star, color: Colors.amber, size: 24.0),
-                  SizedBox(width: 8.w),
-                  Text(
-                    '${result.vote_average!.toStringAsFixed(2)}/10',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontFamily: "Montserrat",
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-       verticalSpace( 16.0.h),
-
-        // Overview
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Overview',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                result.overview ?? 'No description available',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.grey,
-                  fontFamily: "Montserrat",
-                ),
-                textAlign: TextAlign.justify,
-              ),
-            ],
-          ),
-        ),
-       verticalSpace( 16.0.h),
-
-        // Release Date and Runtime
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Text(
-            'Release Date: ${result.release_date ?? 'Unknown'}',
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontFamily: "Montserrat",
-            ),
-          ),
-        ),
+      ),
       verticalSpace( 16.0.h),
 
-        // Voting number
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      // Movie Title and Rating
+      Center(
+        child: Column(
+          children: [
+            Text(
+              result.title ?? '',
+              style: TextStyle(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Montserrat",
+              ),
+              textAlign: TextAlign.center,
+            ),
+            verticalSpace( 8.h),
+            rating(),
+          ],
+        ),
+      ),
+     verticalSpace( 16.0.h),
+
+      // Overview
+      overview(),
+     verticalSpace( 16.0.h),
+
+      // Release Date and Runtime
+      releasedate(),
+    verticalSpace( 16.0.h),
+
+      // Voting number
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Voting number',
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Montserrat",
+              ),
+            ),
+             verticalSpace( 8.h),
+            Count(count: result.vote_count.toString()),
+          ],
+        ),
+      ),
+      verticalSpace( 16.h),
+    ],
+  );
+  }
+
+  Padding releasedate() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Text(
+        'Release Date: ${result.release_date ?? 'Unknown'}',
+        style: TextStyle(
+          fontSize: 16.sp,
+          fontFamily: "Montserrat",
+        ),
+      ),
+    );
+  }
+
+  Row rating() {
+    return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Icon(Icons.star, color: Colors.amber, size: 24.0),
+              SizedBox(width: 8.w),
               Text(
-                'Voting number',
+                '${result.vote_average!.toStringAsFixed(2)}/10',
                 style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp,
                   fontFamily: "Montserrat",
                 ),
               ),
-               verticalSpace( 8.h),
-              Count(count: result.vote_count.toString()),
             ],
+          );
+  }
+
+  Padding overview() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Overview',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        verticalSpace( 16.h),
-      ],
+          SizedBox(height: 8.h),
+          Text(
+            result.overview ?? 'No description available',
+            style: TextStyle(
+              fontSize: 18.sp,
+              color: Colors.grey,
+              fontFamily: "Montserrat",
+            ),
+            textAlign: TextAlign.justify,
+          ),
+        ],
+      ),
     );
   }
 }
